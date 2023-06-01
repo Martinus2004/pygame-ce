@@ -99,24 +99,24 @@ class FontViewer:
 
         # display instructions at the top of the display
         font = pygame.font.SysFont(pygame.font.get_default_font(), font_size)
-        lines = (
-            "Use the scroll wheel or click and drag",
-            "to scroll up and down.",
-            "Fonts that don't use the Latin Alphabet",
-            "might render incorrectly.",
-            f"Here are your {len(fonts)} fonts",
-            "",
-        )
-        for line in lines:
-            surf = font.render(line, 1, instruction_color, self.back_color)
-            font_surfaces.append((surf, total_height))
-            total_height += surf.get_height()
-            max_width = max(max_width, surf.get_width())
+        font.align = pygame.FONT_CENTER
+        instructions = f"""Use the scroll wheel or click and drag
+            to scroll up and down.
+            Fonts that don't use the Latin Alphabet
+            might render incorrectly.
+            Here are your {len(fonts)} fonts
+            """
+
+        surf = font.render(instructions, 1, instruction_color, self.back_color)
+        font_surfaces.append((surf, total_height))
+        total_height += surf.get_height()
+        max_width = max(max_width, surf.get_width())
 
         # render all the fonts and store them with the total height
         for name in sorted(fonts):
             try:
                 font = load_font(path + name, font_size)
+                font.align = pygame.FONT_CENTER
             except OSError:
                 continue
             line = text.replace("&N", name)
